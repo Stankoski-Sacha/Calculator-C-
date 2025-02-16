@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Calculator
+﻿namespace Calculator
 {
     class Code
     {
@@ -16,27 +9,35 @@ namespace Calculator
                 Console.WriteLine("======================");
                 Console.WriteLine("      Calculator      ");
                 Console.WriteLine("======================");
+                Console.WriteLine("Type 'exit' to exit the program");
+                
                 int a = readint("First number: ");
+                if (a == int.MinValue) break;
+
                 Console.WriteLine("Choose action: +, -, *, /, %");
                 String action = Console.ReadLine();
+                if (action.ToLower() == "exit") break;
+
                 int b = readint("Second number: ");
+                if (b == int.MinValue) break;
+
 
                 switch (action)
                 {
                     case "+":
-                        add(a, b);
+                        Console.WriteLine(add(a, b));
                         break;
                     case "-":
-                        sub(a, b);
+                        Console.WriteLine(sub(a, b));
                         break;
                     case "*":
-                        mul(a, b);
+                        Console.WriteLine(mul(a, b));
                         break;
                     case "/":
-                        div(a, b);
+                        Console.WriteLine(div(a, b));
                         break;
                     case "%":
-                        modulo(a, b);
+                        Console.WriteLine(modulo(a, b));
                         break;
                     default:
                         Console.WriteLine("Wrong command");
@@ -49,57 +50,45 @@ namespace Calculator
                 }
             }
 
-            static int readint(String a)
+            static int readint(String prompt)
             {
-                int result;
+                Console.WriteLine(prompt);
+                String input = Console.ReadLine();
+
+                if (input.ToLower() == "exit") return int.MinValue;
+                
+
+
                 try
                 {
-                    Console.WriteLine(a);
-                    return result = (int)Convert.ToInt64(Console.ReadLine());
+                    return (int)Convert.ToInt64(input);
                 }
                 catch (FormatException)
                 {
-                    return 0;
+                    Console.WriteLine("Invalid input");
+                    return readint(prompt);
                 }
             }
 
-            static void add(int a, int b)
+            static int add(int a, int b) => a + b;
+
+
+            static int sub(int a, int b) => a - b;
+
+            static int mul(int a, int b) => a * b;
+
+            static string div(int a, int b)
             {
-                Console.WriteLine(a + b);
+                if (b == 0)
+                    return "Unable to divide by zero";
+                return (a / b).ToString();
             }
 
-            static void sub(int a, int b)
+            static string modulo(int a, int b)
             {
-                Console.WriteLine(a - b);
-            }
-
-            static void mul(int a, int b)
-            {
-                Console.WriteLine(a * b);
-            }
-
-            static void div(int a, int b)
-            {
-                try
-                {
-                    Console.WriteLine(a / b);
-                }
-                catch (DivideByZeroException)
-                {
-                    Console.WriteLine("Cannot divide by zero");
-                }
-            }
-
-            static void modulo(int a, int b)
-            {
-                try
-                {
-                    Console.WriteLine(a % b);
-                }
-                catch (DivideByZeroException)
-                {
-                    Console.WriteLine("Cannot divide by zero");
-                }
+                if (b == 0)
+                    return "Cannot divide by zero";
+                return (a % b).ToString();
             }
         }
     }
